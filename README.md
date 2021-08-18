@@ -1,0 +1,1 @@
+compile app using $npm run devStart
