@@ -20,23 +20,27 @@ navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
 }).then(stream => {
+  console.log('1')
   addVideoStream(myVideo, stream)
 
 
   //This allows us to listen (RECEIVE calls) to when someone calls us on the myPeer obj. It answers their call, and sends them our current stream.
   myPeer.on('call', call => {
     call.answer(stream)
+    console.log('2')
     //creates a new 'empty' video obj on your peer's screen for your stream
     const video = document.createElement('video')
 
 //We answered the call, but now we need to give the other person OUR stream. userVideoStream is the OTHER users' video stream
     call.on('stream', userVideoStream => {
+      console.log('3')
       addVideoStream(video, userVideoStream)
     })
   })
 
   //allows us to be connected to by other users. This is referencing line 34 in server.js, the following code is listening/waiting for 'user-connected' event (if a new user joins the room) it emits 'user-connected', and works as a trigger for the following function:
   socket.on('user-connected', userId => {
+    console.log('4')
     //when a new user connects, were calling the function below. 
     connectToNewUser(userId, stream)
   })
@@ -51,6 +55,7 @@ socket.on('user-disconnected', userId => {
 
 //As soon as we connect with our peer server and get back an Id, we want to run the code that follows. It's gonna pass us the id of our user
 myPeer.on('open', id => {
+  console.log('5')
   //sends an event ('join-room') to our server. Passes in user Id whenever we actually join.
   socket.emit('join-room', ROOM_ID, id)
 })
@@ -59,6 +64,7 @@ myPeer.on('open', id => {
 //HERE THROUGH LINE 65 ALLOWS US TO ACTUALLY MAKE THE CALL
 // When a new user connects, this function is called and we're passing it our userId as well as our current video stream that we wanna send to the other user
 function connectToNewUser(userId, stream){
+  console.log('6')
   //Coming from our myPeer obj (line 5, script.js) and is calling a function called 'call'. The myPeer.call func is going to call a user (userId), and sending them our video and audio stream (stream). 
   const call = myPeer.call(userId, stream)
 
@@ -66,6 +72,7 @@ function connectToNewUser(userId, stream){
   const video = document.createElement('video')
   //We wanna listen to for the event called 'stream'. When the other user(userId) sends us back THEIR video stream (userVideoStream), we're gonna get an event called 'stream' which takes in THEIR video stream.
   call.on('stream', userVideoStream => {
+    console.log('7')
     //All 'userVideoStream' is doing is adding the other users' video stream (userVideoStream) to the new empty video element (video) on our page
     addVideoStream(video, userVideoStream)
   })
@@ -80,6 +87,7 @@ function connectToNewUser(userId, stream){
 
 //We wanna tell the video object to use our stream here. It takes the video, it plays the video as a stream, and once the stream/video is loaded on our page, we wanna play that video.
 function addVideoStream(video, stream){
+  console.log('8')
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
     video.play()
