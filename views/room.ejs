@@ -10,24 +10,97 @@
   <script defer src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
   <script src="/socket.io/socket.io.js" defer></script>
   <script defer src="face-api.min.js"></script>
-  <script src="script.js" defer></script>
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <title>Document</title>
-  <style>
-    #video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 300px);
-      grid-auto-rows: 300px;
-    }
-
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  </style>
 </head>
 <body>
-  <h1>This is the video page!</h1>
-  <div id="video-grid"></div>
+  <div class="container">
+    <div class="row mx-0 toolbar">
+      <button type="button" class="bi bi-search search" data-toggle="modal" data-target="#joinRoom">
+      </button>
+      
+
+      <div class="modal fade" id="joinRoom" tabindex="-1" role="dialog" aria-labelledby="joinRoomLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="col-11 modal-title text-center" id="joinRoomLabel">Join a room</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <div class="form-group">
+                <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="Room code" id="roomCode">
+                <small id="emailHelp" class="form-text text-muted">Paste in your room code to chat with your friends!</small>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="submit" class="btn btn-secondary w-100">Let's go!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="col content">
+      <div id="preview"></div>
+      <!-- <div class="row mx-0"> -->
+        <div id="video-grid">
+          <canvas id="face"></canvas>
+        </div>
+        <!-- <div class="name">Me</div> -->
+      <!-- </div> -->
+      <div id="error">No faces were detected. Try moving into more light!</div>
+
+      
+      <!-- <div id="preview"></div> -->
+    <div class="row controls">
+      <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false" onClick="toggleVideo()"></i>
+      <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-mic toggle" data-toggle="button" aria-pressed="false" onClick="toggleAudio()"></i>
+
+    </div>
+  </div>
+
+  <!-- <div class="container">
+    <div class="col content">
+      <div class="row mx-0">
+        <canvas id="face"></canvas>
+      </div>
+      <div id="error">No faces were detected. Try moving into more light!</div>
+
+      <div id="video-grid"></div>
+
+    <div class="row controls">
+      <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false" onClick="toggleVideo()"></i>
+      <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-mic toggle" data-toggle="button" aria-pressed="false" onClick="toggleAudio()"></i>
+
+    </div>
+  </div> -->
+
+  <img id="default" src="./images/default.svg">
+  <img id="neutral" src="./images/neutral.png">
+  <img id="happy" src="./images/happy.png">
+  <img id="sad" src="./images/sad.png">
+  <img id="angry" src="./images/angry.png">
+  <img id="fearful" src="./images/fearful.png">
+  <img id="disgusted" src="./images/disgusted.png">
+  <img id="surprised" src="./images/surprised.png">
+  <img id="nofaces" src="./images/nofaces.png">
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
