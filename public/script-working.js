@@ -177,10 +177,52 @@ $( document ).ready(function() {
           let videoId = stream.id.slice(0,7)
           video.setAttribute('id', videoId)
         }
+  
+        let audioStream = new MediaStream()
+        let audioTrack = (stream.getAudioTracks()[0])
+          audioStream.addTrack(audioTrack)
+          if (video.id === 'myVideo'){
+            addSpeakingIndicator(audioStream, 'face')
+          } else {
+            addSpeakingIndicator(audioStream, video.id)
+          }
       })
   
       videoGrid.append(video)
+      // document.querySelectorAll("video, audio").forEach( elem => elem.muted = true );
     }
+
+    function addSpeakingIndicator(audioStream, video){
+      let speaker = document.getElementById(video)
+      console.log('adding speaking indicator to: ', speaker)
+  
+      var options = {};
+      var speechEvents = new hark(audioStream, options);
+  
+      speechEvents.on('speaking', function() {
+        console.log('speaking');
+      speaker.classList.add('active')
+      });
+  
+      speechEvents.on('stopped_speaking', function() {
+        console.log('stopped_speaking');
+        speaker.classList.remove('active')
+      });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
   function drawImageScaled(img, ctx) {
     face.width = img.width;
@@ -215,3 +257,9 @@ $( document ).ready(function() {
   //   }, 100)
   // })
 });
+
+  
+
+// audioStream.addTrack(vidStream.getAudioTracks()[0])
+// stream.addTrack(vidStream.getAudioTracks()[0])
+// addSpeakingIndicator(audioStream, face)

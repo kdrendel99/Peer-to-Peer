@@ -11,6 +11,8 @@
   <script src="/socket.io/socket.io.js" defer></script>
   <script defer src="face-api.min.js"></script>
   <script defer src="script.js"></script>
+  <script defer src="hark.bundle.js"></script>
+  <script defer src="buttons.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">  
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -66,8 +68,9 @@
       
       <!-- <div id="preview"></div> -->
     <div class="row controls">
-      <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false" onClick="toggleVideo()"></i>
-      <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-mic toggle" data-toggle="button" aria-pressed="false" onClick="toggleAudio()"></i>
+      <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false"></i>
+      <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-mic toggle" data-toggle="button" aria-pressed="false"></i>
+      <button id="muteAll">Mute all audio</button>
 
     </div>
   </div>
@@ -88,7 +91,7 @@
     </div>
   </div> -->
 
-  <img id="default" src="./images/default.svg">
+  <img id="default" src="./images/default.png">
   <img id="neutral" src="./images/neutral.png">
   <img id="happy" src="./images/happy.png">
   <img id="sad" src="./images/sad.png">
