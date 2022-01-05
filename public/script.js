@@ -19,7 +19,7 @@ const myPeer = new Peer(undefined, {
 
 const myVideo = document.createElement('video')
 myVideo.setAttribute('id', 'myVideo');
-myVideo.muted = true
+myVideo.setAttribute('muted', '');
 myVideo.style.display = "none";
 let faceModelsLoaded = false;
 let videoIsLoaded = false;
