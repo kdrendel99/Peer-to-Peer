@@ -3,7 +3,7 @@ const videoGrid = document.getElementById('video-grid')
 const preview = document.getElementById('preview')
 const myPeer = new Peer(undefined, {
   secure:true,
-  host: 'https://realtime-peer-server.herokuapp.com/',
+  host: 'gentle-taiga-55822.herokuapp.com/',
   port: '3001' || 443
 })
 
