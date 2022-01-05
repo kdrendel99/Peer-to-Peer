@@ -3,6 +3,9 @@
 }
 
 @media screen and (min-width: 320px) {
+  body {
+    height: calc(var(--vh, 1vh) * 100)!important;
+  }
   .toggle {
     font-size: calc(16px + 30 * ((100vw - 320px) / 600));
   }
@@ -28,9 +31,10 @@
   }
   #video-grid{
     padding-top: 10px!important;
+    margin-top: 20px;
   }
   .controls{
-    padding: 0%!important;
+    padding: 4%!important;
     margin-bottom: 0px!important;
     margin-top: 80%!important;
     bottom: 10px!important;
@@ -41,6 +45,9 @@
     max-height: none!important;
     height: 20vw!important;
     font-size: 10vw!important;
+  }
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(0px, 1fr))!important;
   }
 }
 

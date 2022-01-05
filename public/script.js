@@ -17,6 +17,9 @@ const myPeer = new Peer(undefined, {
   // port:443
 });
 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 const myVideo = document.createElement('video')
 myVideo.setAttribute('id', 'myVideo');
 myVideo.setAttribute('muted', '');
