@@ -1,5 +1,15 @@
-//create express server
 require("dotenv").config()
+
+var ExpressPeerServer = require("peer").ExpressPeerServer;    
+var options = {
+  debug: true,
+  allow_discovery: true,
+};
+let peerServer = ExpressPeerServer(server, options);
+
+
+
+//create express server
 const express = require('express')
 const app = express()
 //create a server for socket io
@@ -12,7 +22,8 @@ const { v4: uuidV4 } = require('uuid')
 //set up express server so we have a route on the homepage
 app.set('view engine', 'ejs')
 //set up static folder. all js and css goes in public
-app.use(express.static('public'))
+// app.use(express.static('public'))
+app.use("/peerjs", peerServer);
 
 
 //all we want is to create a brand new room and redirect the user to the room.
