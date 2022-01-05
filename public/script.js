@@ -10,7 +10,7 @@ const myPeer = new Peer(undefined, {
   //hosted
   host:'default-realtime-server.herokuapp.com', 
   secure:true, 
-  port:9000
+  port:443
 
   // host:'peerjs-server.herokuapp.com', 
   // secure:true, 
