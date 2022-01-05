@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "start": "PROD=true peerjs --port 3001 & node server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
