@@ -20,6 +20,7 @@ const myPeer = new Peer(undefined, {
 const myVideo = document.createElement('video')
 myVideo.setAttribute('id', 'myVideo');
 myVideo.setAttribute('muted', '');
+
 myVideo.style.display = "none";
 let faceModelsLoaded = false;
 let videoIsLoaded = false;
@@ -165,6 +166,7 @@ $( document ).ready(function() {
 
   function addVideoStream(video, stream) {
     video.srcObject = stream
+    video.setAttribute("playsinline", true);
     video.addEventListener('loadedmetadata', () => {
       video.play()
       if (!video.id){
