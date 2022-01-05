@@ -191,7 +191,8 @@ $( document ).ready(function() {
     setInterval(async () => {
       const detections = await faceapi.detectAllFaces(myVideo, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
       if (detections.length > 0) {
-        error.style.display = 'none'
+        // error.style.display = 'none'
+        error.style.opacity = '0%';
         detections.forEach(element => {
           let status = "";
           let valueStatus = 0.0;
@@ -208,7 +209,8 @@ $( document ).ready(function() {
       } else {
       let img = statusIcons.nofaces;
       drawImageScaled(img, ctx)
-      error.style.display = 'block';
+      // error.style.display = 'block';
+      error.style.opacity = '100%';
       }
     }, 100)
   }
