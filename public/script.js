@@ -2,10 +2,14 @@ const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
 const preview = document.getElementById('preview')
 const myPeer = new Peer(undefined, {
-  secure:true,
-  host: 'gentle-taiga-55822.herokuapp.com/',
-  port: '3001' || 443
-})
+  host:'default-realtime-server.herokuapp.com', 
+  secure:true, 
+  port:443
+
+  // host:'peerjs-server.herokuapp.com', 
+  // secure:true, 
+  // port:443
+});
 
 const myVideo = document.createElement('video')
 myVideo.setAttribute('id', 'myVideo');

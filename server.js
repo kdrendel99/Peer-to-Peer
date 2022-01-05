@@ -1,4 +1,4 @@
-require("dotenv").config()
+// require("dotenv").config()
 //create express server
 const express = require('express')
 const app = express()
@@ -44,5 +44,6 @@ io.on('connection', socket => {
   })
 })
 
-const port = process.env.PORT || 3000;
-server.listen(port, () => console.log(`server is running on port ${port}.`));
+// const port = process.env.PORT || 3000;
+// server.listen(port, () => console.log(`server is running on port ${port}.`));
+server.listen(3000)
