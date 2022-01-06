@@ -220,6 +220,12 @@ video, #face {
 }
 
 #myVideo{
+  transform: rotateY(180deg);
+  -webkit-transform:rotateY(180deg); 
+  -moz-transform:rotateY(180deg); 
+  /* Safari and Chrome */
+/* Firefox */
+
   margin: 10px;
   max-height: 250px;
   border-radius: 20px;
