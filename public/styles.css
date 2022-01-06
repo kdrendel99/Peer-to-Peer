@@ -14,7 +14,7 @@
 
   .btn-outline-dark:hover{
     color: #343a40;
-    background-color: transparent;
+    background: transparent;
     border-color: #343a40;
   }
   #error {
@@ -38,7 +38,6 @@
 
   .buttons{
     margin: 5px!important;
-    box-shadow: none!important;
   }
 
   .modal-content{
@@ -288,5 +287,5 @@ i {
   align-content: center;
   align-items: center!important;
   border-radius: 15px!important;
-  background-color: transparent;
+  background: transparent;
 }
