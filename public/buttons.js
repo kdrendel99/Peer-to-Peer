@@ -13,11 +13,11 @@ $( document ).ready(function() {
 
   $( "#toggleAudioButton" ).click(function() {
     $('#toggleAudioButton').toggleClass('bi bi-volume-up bi bi-volume-mute')
-    // let elements = document.querySelectorAll("video, audio, canvas");
-    // let elemArr = Array.from(elements)
-    // elemArr.filter(media => media.id !== 'myVideo').filter(media => media.id !== 'face').forEach( elem => {
-    //   elem.muted = !elem.muted
-    //   });
+    let elements = document.querySelectorAll("video, audio, canvas");
+    let elemArr = Array.from(elements)
+    elemArr.filter(media => media.id !== 'myVideo').filter(media => media.id !== 'face').forEach( elem => {
+      elem.muted = !elem.muted
+      });
   });
 
   $( "#searchButton" ).click(function() {

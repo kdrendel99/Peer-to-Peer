@@ -1,6 +1,14 @@
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
-const preview = document.getElementById('preview')
+
+const video = document.createElement('video')
+video.setAttribute('id', 'myVideo');
+video.setAttribute('autoplay', 'muted');
+video.muted = true;
+document.body.appendChild(video);
+const myVideo = document.getElementById('myVideo')
+myVideo.style.display = "none";
+
 const myPeer = new Peer(undefined, {
   //locally
   // host:'default-realtime-server.herokuapp.com', 
@@ -11,23 +19,10 @@ const myPeer = new Peer(undefined, {
   host:'default-realtime-server.herokuapp.com', 
   secure:true, 
   port:443
-
-  // host:'peerjs-server.herokuapp.com', 
-  // secure:true, 
-  // port:443
 });
 
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-const myVideo = document.createElement('video')
-myVideo.setAttribute('id', 'myVideo');
-myVideo.setAttribute('muted', '');
-myVideo.muted = true;
-
-myVideo.style.display = "none";
-let faceModelsLoaded = false;
-let videoIsLoaded = false;
 
 $( document ).ready(function() {
 
@@ -176,9 +171,9 @@ $( document ).ready(function() {
       if (!video.id){
         let videoId = stream.id.slice(0,7)
         video.setAttribute('id', videoId)
-        // if($('#toggleAudioButton').hasClass('active')){
-        //   video.muted = true;
-        // }
+        if($('#toggleAudioButton').hasClass('active')){
+          video.muted = true;
+        }
       }
     })
     videoGrid.append(video)
@@ -193,14 +188,12 @@ $( document ).ready(function() {
 
   function trackFaces(){
     setInterval(async () => {
-      const detections = await faceapi.detectAllFaces(myVideo, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-      if (detections.length > 0) {
-        // error.style.display = 'none'
+      const detections = await faceapi.detectSingleFace(myVideo, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+      if (detections !== undefined) {
         error.style.opacity = '0%';
-        detections.forEach(element => {
           let status = "";
-          let valueStatus = 0.0;
-          for (const [key, value] of Object.entries(element.expressions)) {
+          let valueStatus = 0.5;
+          for (const [key, value] of Object.entries(detections.expressions)) {
             if (value > valueStatus) {
               status = key
               valueStatus = value;
@@ -209,11 +202,9 @@ $( document ).ready(function() {
           // highest scored expression (status) = display the right Emoji
           let img = statusIcons[status]
           drawImageScaled(img, ctx)
-        });
       } else {
       let img = statusIcons.nofaces;
       drawImageScaled(img, ctx)
-      // error.style.display = 'block';
       error.style.opacity = '100%';
       }
     }, 100)
