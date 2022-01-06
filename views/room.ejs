@@ -50,7 +50,6 @@
       </div>
     </div>
     <div class="col content">
-      <!-- <div id="preview"></div> -->
       <div class="grid-wrapper">
         <div id="video-grid" class="grid-container">
           <canvas id="face"></canvas>
@@ -58,16 +57,15 @@
       </div>
       <div id="error">No faces were detected. Try moving into more light!</div>
       <div class="row controls">
-          <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false"></i>
-          <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-volume-up toggle" data-toggle="button" aria-pressed="false"></i>
+        <button class="btn btn-outline-dark buttons">
+          <i id="toggleVideoButton" type="button" class="bi bi-camera-video" data-toggle="button" aria-pressed="false"></i>
+        </button>
+        <button class="btn btn-outline-dark buttons">
+          <i id="toggleAudioButton" type="button" class="bi bi-volume-up" data-toggle="button" aria-pressed="false"></i>
+        </button>
       </div>
     </div>
-    <!-- <div class="row controls">
-      <i id="toggleVideoButton" type="button" class="btn btn-outline-dark bi bi-camera-video toggle" data-toggle="button" aria-pressed="false"></i>
-      <i id="toggleAudioButton" type="button" class="btn btn-outline-dark bi bi-volume-up toggle" data-toggle="button" aria-pressed="false"></i>
-  </div> -->
   </div>
-    <!-- fa-xs fa-sm fa-lg fa-2x fa-3x fa-4x fa-5x -->
 
     <img id="default" src="./images/default.png">
     <img id="neutral" src="./images/neutral.png">

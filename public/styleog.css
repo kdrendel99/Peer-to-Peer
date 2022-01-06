@@ -9,7 +9,6 @@
   .btn-outline-dark{
     height: 76px!important;
     white-space: nowrap!important;
-    width: 60px!important;
   }
 
   .btn-outline-dark:hover{
@@ -19,30 +18,29 @@
   }
   #error {
     font-size: calc(16px + 10 * ((100vw - 320px) / 680));
-    padding: 10px 10% 10px 10%!important;
+    padding: 8px 15% 8px 15%;
     margin-top: 10px!important;
   }
   .search {
     font-size: 40px;
     margin-left: 82%!important;
   }
-  .controls{
-    margin-top: 0px!important;
-    margin-bottom: 0px!important;
-    min-height: 0px!important;
+  /* .controls{
+    min-height: 0;
+    height: 80px!important;
+    padding-top: 0px!important;
+    padding-bottom: 0px!important;
   }
-
   i {
-    font-size: 5px!important;
+    font-size: 30px!important;
   }
-
+  .btn-outline-dark{
+    width: 60px!important;
+  }
   .buttons{
-    margin: 5px!important;
-  }
-
-  .modal-content{
-    height: 100%!important;
-  }
+    min-height: 0!important;
+    height: 50px!important;
+  } */
 }
 
 @media screen and (max-width: 480px) {
@@ -62,7 +60,8 @@
   }
   .controls{
     margin-bottom: 0px!important;
-    bottom: 10px;
+    margin-top: 80%!important;
+    bottom: 10px!important;
     width: 100%;
     position: absolute;
   }
@@ -71,24 +70,24 @@
   }
 }
 
+
 @media screen and (max-width: 768px) {
   .content {
     padding: 0!important;
   }
 }
 
-@media only screen and (min-width: 320px) and (max-width: 992px){
-  i{
+/* @media only screen and (min-width: 320px) and (max-width: 992px) {
+  i {
     font-size: 40px!important;
   }
   .btn-outline-dark{
     width: 73.98px!important;
-    height: 73.98px!important;
   }
   .controls{
     min-height: 110px;
   }
-}
+}​ */
 
 
 @media screen and (min-width: 992px) {
@@ -100,12 +99,62 @@
   }
   .btn-outline-dark{
     width: 96.48px!important;
-    height: 96.48px!important;
   }
   #error{
     font-size: 42px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 body {
   background: url(./images/wave.png) no-repeat center center fixed;
@@ -131,6 +180,7 @@ body {
   justify-content: center;
   align-items: center;
   min-width: 300px;
+  /* border: 5px solid blue; */
 }
 
 .row.mx-0.toolbar {
@@ -197,19 +247,19 @@ body {
   border-radius: 20px;
 }
 
-
-
-
 .content{
   /* contains emoji and error */
   margin: 0;
   padding: 0 15% 0 15%;
   justify-content: center;
   align-items: center;
+
+  border: 5px solid red; 
 }
 
 .grid-wrapper{
   max-height: 50%vh!important;
+  border: 5px solid blue; 
 }
 
 .grid-container {
@@ -219,6 +269,7 @@ body {
   width: 100%;
   grid-gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+  /* border: 5px solid purple!important; */
 }
 
 video, #face {
@@ -248,8 +299,11 @@ video, #face {
 
 #myVideo{
   transform: rotateY(180deg);
-  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-  -moz-transform:rotateY(180deg); /* Firefox */
+  -webkit-transform:rotateY(180deg); 
+  -moz-transform:rotateY(180deg); 
+  /* Safari and Chrome */
+/* Firefox */
+
   margin: 10px;
   max-height: 250px;
   border-radius: 20px;
@@ -261,22 +315,27 @@ video, #face {
   background-color: #f9f9f9;
   justify-content: center;
   align-items: center;
-  min-height: 125px;
   margin: 20px 0 20px 0;
+  padding-top: 3%;
+  padding-bottom: 3%;
   border-radius: 25px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  border: 5px solid black;
 }
 
 .buttons{
   align-items: center;
   display: inline-flex;
   justify-content: center;
+  min-height: 100%;
   text-align: center!important;
+  /* background-color: #fff; */
   background-color: transparent;
   border: 3px solid!important;
   border-radius: 20px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-  margin: 0 2% 0 2%;
+  margin: 0 2% 0 2%!important;
+  /* border: 5px solid red; */
 
 }
 
@@ -288,4 +347,17 @@ i {
   align-items: center!important;
   border-radius: 15px!important;
   background-color: transparent;
+}
+
+
+/* active speaker class  */
+/* .active{
+  border: 5px solid #03a9f4;
+  border-radius: 50%;
+  padding: 10px;
+} */
+
+.buttonActive{
+  color: #fff!important;
+  background-color: #343a40;
 }

@@ -10,11 +10,6 @@ const myVideo = document.getElementById('myVideo')
 myVideo.style.display = "none";
 
 const myPeer = new Peer(undefined, {
-  //locally
-  // host:'default-realtime-server.herokuapp.com', 
-  // secure:true, 
-  // port:443
-
   //hosted
   host:'default-realtime-server.herokuapp.com', 
   secure:true, 
@@ -36,6 +31,7 @@ $( document ).ready(function() {
     const surprised = document.getElementById("surprised") 
     const nofaces = document.getElementById("nofaces") 
     const error = document.getElementById("error") 
+
     
     let statusIconsArr = [
       default1,
