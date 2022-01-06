@@ -38,6 +38,7 @@
 
   .buttons{
     margin: 5px!important;
+    box-shadow: none!important;
   }
 
   .modal-content{
