@@ -176,9 +176,9 @@ $( document ).ready(function() {
       if (!video.id){
         let videoId = stream.id.slice(0,7)
         video.setAttribute('id', videoId)
-        if($('#toggleAudioButton').hasClass('active')){
-          video.muted = true;
-        }
+        // if($('#toggleAudioButton').hasClass('active')){
+        //   video.muted = true;
+        // }
       }
     })
     videoGrid.append(video)
