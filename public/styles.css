@@ -9,9 +9,19 @@
   .toggle {
     font-size: calc(16px + 30 * ((100vw - 320px) / 600));
   }
+  i{
+    /* padding: 0!important; */
+    /* text-align: center; */
+    align-content: center!important;
+    justify-content: center;
+  }
   #error {
     font-size: calc(16px + 10 * ((100vw - 320px) / 680));
   }
+  /* .controls{
+    display: flex;
+    justify-content: space-around;
+  } */
 }
 
 @media screen and (max-width: 480px) {

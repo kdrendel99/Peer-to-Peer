@@ -23,6 +23,7 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
 const myVideo = document.createElement('video')
 myVideo.setAttribute('id', 'myVideo');
 myVideo.setAttribute('muted', '');
+myVideo.muted = true;
 
 myVideo.style.display = "none";
 let faceModelsLoaded = false;
