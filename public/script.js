@@ -173,7 +173,7 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
     video.srcObject = stream
     video.setAttribute("playsinline", true);
     video.addEventListener('loadedmetadata', () => {
-      // video.play()
+      video.play()
       if (!video.id){
         let videoId = stream.id.slice(0,7)
         video.setAttribute('id', videoId)
