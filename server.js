@@ -31,7 +31,6 @@ io.on('connection', socket => {
     //this tells the users in the same room that we have a new user that just connected. we want the current socket to join a room. were joining this new room that we passed as an argument in 29 with the current user.
     socket.join(roomId)
     //now were going to send a message to the room were currently in. broadcast sends this message to everyone else in the room. The line directly below returns "Cannot read property 'emit' of undefined". So line 34 was fixed and pulled from the video comment section.
-    // socket.to(roomId).broadcast.emit('user-connected', userId)
     // socket.on('ready', () => {
       socket.broadcast.to(roomId).emit('user-connected', userId)
     // })

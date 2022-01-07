@@ -9,6 +9,8 @@ const myPeer = new Peer(undefined, {
 
 const peers = {}
 
+$( document ).ready(function() {
+
 const video = document.createElement('video')
 video.setAttribute('id', 'myVideo');
 video.setAttribute('autoplay', 'muted');
@@ -19,8 +21,6 @@ myVideo.style.display = "none";
 
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
-
-// $( document ).ready(function() {
 
     const default1 = document.getElementById("default") 
     const neutral = document.getElementById("neutral") 
@@ -95,7 +95,6 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
   setInitialFace();
     //end
     
-    
 
   //Only add facial tracking to video once models are loaded.
   Promise.all([
@@ -105,7 +104,6 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
   faceapi.nets.faceExpressionNet.loadFromUri('/models')
   ]).then(() => trackFaces())
 
-  let stream = face.captureStream(30)
   
   navigator.mediaDevices.getUserMedia({
     video: true,
@@ -114,31 +112,31 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
     let audioTrack = videoStream.getTracks().filter(function(track) {
       return track.kind === 'audio'
     })[0];
-
+    let stream = face.captureStream(30)
     stream.addTrack( audioTrack );
 
     addVideoStream(myVideo, videoStream)  
-  })
 
-  myPeer.on('call', call => {
-    console.log('this peer is being called')
-    call.answer(stream)
-    const video = document.createElement('video')
-    call.on('stream', userVideoStream => {
-      console.log('incoming stream: ', stream)
-      addVideoStream(video, userVideoStream)
-    })
-  })
-  socket.emit("ready")
-
-  socket.on('user-connected', userId => {
-    console.log("New user connected...", userId, stream)
-    stream.getTracks().forEach(function(track) {
-        if (track){
-          console.log(track)
-        }
+    myPeer.on('call', call => {
+      console.log('this peer is being called')
+      call.answer(stream)
+      const video = document.createElement('video')
+      call.on('stream', userVideoStream => {
+        console.log('incoming stream: ', stream)
+        addVideoStream(video, userVideoStream)
       })
-    connectToNewUser(userId, stream)
+    })
+    socket.emit("ready")
+  
+    socket.on('user-connected', userId => {
+      console.log("New user connected...", userId, stream)
+      stream.getTracks().forEach(function(track) {
+          if (track){
+            console.log(track)
+          }
+        })
+      connectToNewUser(userId, stream)
+    })
   })
 
   socket.on('user-disconnected', userId => {
@@ -185,7 +183,7 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
       face.height = img.height;
       if (img !== undefined || ctx !== undefined || face !== undefined){
       ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
-      // setTimeout(() => drawImageScaled(img, ctx), 1000 / 30);
+      // setTimeout(() => drawImageScaled(img, ctx), 1000 / 20);
     }
   }
 
@@ -212,4 +210,4 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
       }
     }, 100)
   }
-// });
+});
