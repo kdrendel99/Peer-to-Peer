@@ -32,7 +32,9 @@ io.on('connection', socket => {
     socket.join(roomId)
     //now were going to send a message to the room were currently in. broadcast sends this message to everyone else in the room. The line directly below returns "Cannot read property 'emit' of undefined". So line 34 was fixed and pulled from the video comment section.
     // socket.to(roomId).broadcast.emit('user-connected', userId)
-    socket.broadcast.to(roomId).emit('user-connected', userId)
+    // socket.on('ready', () => {
+      socket.broadcast.to(roomId).emit('user-connected', userId)
+    // })
 
 //When OTHER user leaves, it's going to emit an event called 'user-disconnected' that we can reference to call a function in script.js (socket.io is going to call this when the other person leaves the call)
     socket.on('disconnect', () => {

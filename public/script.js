@@ -1,5 +1,13 @@
 const socket = io('/')
 const videoGrid = document.getElementById('video-grid')
+const myPeer = new Peer(undefined, {
+  //hosted
+  host:'default-realtime-server.herokuapp.com', 
+  secure:true, 
+  port:443
+});
+
+const peers = {}
 
 const video = document.createElement('video')
 video.setAttribute('id', 'myVideo');
@@ -9,17 +17,10 @@ document.body.appendChild(video);
 const myVideo = document.getElementById('myVideo')
 myVideo.style.display = "none";
 
-const myPeer = new Peer(undefined, {
-  //hosted
-  host:'default-realtime-server.herokuapp.com', 
-  secure:true, 
-  port:443
-});
-
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 
-$( document ).ready(function() {
+// $( document ).ready(function() {
 
     const default1 = document.getElementById("default") 
     const neutral = document.getElementById("neutral") 
@@ -95,7 +96,6 @@ $( document ).ready(function() {
     //end
     
     
-  const peers = {}
 
   //Only add facial tracking to video once models are loaded.
   Promise.all([
@@ -107,6 +107,8 @@ $( document ).ready(function() {
 
   let stream = new MediaStream
   const emojiStream = face.captureStream(30)
+
+  
   navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
@@ -125,15 +127,22 @@ $( document ).ready(function() {
     addVideoStream(myVideo, videoStream)  
 
     myPeer.on('call', call => {
+      console.log('this peer is being called')
       call.answer(stream)
       const video = document.createElement('video')
       call.on('stream', userVideoStream => {
+        console.log('incoming stream: ', stream)
         addVideoStream(video, userVideoStream)
       })
     })
+    socket.emit("ready")
 
     socket.on('user-connected', userId => {
+      console.log("New user connected...", userId, stream)
       connectToNewUser(userId, stream)
+
+      //connectToNewUser(userId, stream)
+      // setTimeout(connectToNewUser,1000,userId,stream)
     })
   })
 
@@ -143,6 +152,7 @@ $( document ).ready(function() {
 
   myPeer.on('open', id => {
     socket.emit('join-room', ROOM_ID, id)
+    console.log('open.')
   })
 
   function connectToNewUser(userId, stream) {
@@ -163,7 +173,7 @@ $( document ).ready(function() {
     video.srcObject = stream
     video.setAttribute("playsinline", true);
     video.addEventListener('loadedmetadata', () => {
-      video.play()
+      // video.play()
       if (!video.id){
         let videoId = stream.id.slice(0,7)
         video.setAttribute('id', videoId)
@@ -176,10 +186,12 @@ $( document ).ready(function() {
   }
 
   function drawImageScaled(img, ctx) {
-    face.width = img.width;
-    face.height = img.height;
-    ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
-    // setTimeout(() => drawImageScaled(img, ctx), 1000 / 30);
+      face.width = img.width;
+      face.height = img.height;
+      if (img !== undefined || ctx !== undefined || face !== undefined){
+      ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, img.width, img.height);
+      // setTimeout(() => drawImageScaled(img, ctx), 1000 / 30);
+    }
   }
 
   function trackFaces(){
@@ -197,7 +209,7 @@ $( document ).ready(function() {
           }
           // highest scored expression (status) = display the right Emoji
           let img = statusIcons[status]
-          drawImageScaled(img, ctx)
+          if (img !== undefined) drawImageScaled(img, ctx)
       } else {
       let img = statusIcons.nofaces;
       drawImageScaled(img, ctx)
@@ -205,4 +217,4 @@ $( document ).ready(function() {
       }
     }, 100)
   }
-});
+// });
