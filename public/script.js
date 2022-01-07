@@ -105,9 +105,7 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
   faceapi.nets.faceExpressionNet.loadFromUri('/models')
   ]).then(() => trackFaces())
 
-  let stream = new MediaStream
-  const emojiStream = face.captureStream(30)
-
+  let stream = face.captureStream(30)
   
   navigator.mediaDevices.getUserMedia({
     video: true,
@@ -117,33 +115,30 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
       return track.kind === 'audio'
     })[0];
 
-    emojiStream.addTrack( audioTrack );
-      emojiStream.getTracks().forEach(function(track) {
-      if (track){
-        stream.addTrack(track);
-      }
-    })
+    stream.addTrack( audioTrack );
 
     addVideoStream(myVideo, videoStream)  
+  })
 
-    myPeer.on('call', call => {
-      console.log('this peer is being called')
-      call.answer(stream)
-      const video = document.createElement('video')
-      call.on('stream', userVideoStream => {
-        console.log('incoming stream: ', stream)
-        addVideoStream(video, userVideoStream)
+  myPeer.on('call', call => {
+    console.log('this peer is being called')
+    call.answer(stream)
+    const video = document.createElement('video')
+    call.on('stream', userVideoStream => {
+      console.log('incoming stream: ', stream)
+      addVideoStream(video, userVideoStream)
+    })
+  })
+  socket.emit("ready")
+
+  socket.on('user-connected', userId => {
+    console.log("New user connected...", userId, stream)
+    stream.getTracks().forEach(function(track) {
+        if (track){
+          console.log(track)
+        }
       })
-    })
-    socket.emit("ready")
-
-    socket.on('user-connected', userId => {
-      console.log("New user connected...", userId, stream)
-      connectToNewUser(userId, stream)
-
-      //connectToNewUser(userId, stream)
-      // setTimeout(connectToNewUser,1000,userId,stream)
-    })
+    connectToNewUser(userId, stream)
   })
 
   socket.on('user-disconnected', userId => {
