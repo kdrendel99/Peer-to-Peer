@@ -124,6 +124,10 @@ body {
   align-items: center;
 }
 
+.permissionDenied{
+  height: 60%!important;
+}
+
 .container {
   padding: 50px 20px 0 20px;
   height: 100%;

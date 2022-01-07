@@ -20,6 +20,45 @@
 </head>
 <body>
   <div class="container">
+
+
+
+    <div class="modal fade" id="permissionDenied" role="dialog" aria-labelledby="joinRoomLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content permissionDenied">
+          <div class="modal-header">
+            <h1 class="col-12 modal-title text-center" id="joinRoomLabel">OOPS</h1>
+          </div>
+          <div class="modal-body text-center">
+            <div class="form-group">
+              <h3 class="form-text text-muted"><strong>We need camera and microphone permissions to use this app!</strong></h3>
+            </div>
+            <div class="py-1"></div>
+            <div class="form-group py-1">
+              <medium class="form-text text-muted">Please configure your browser settings to allow access so you can join the fun.</medium>
+            </div>
+            <div class="form-group py-1">
+              <medium id="roomCodeLabel" class="form-text text-muted">
+                Realtime.io prioritizes your privacy and safety. We promise your personal video feed will never be accessible to anyone else you're chatting with.
+              </medium>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="submit" class="btn btn-secondary w-100">Got it!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <div class="row mx-0 toolbar">
       <button id="searchButton" type="button" class="bi bi-search search" data-toggle="modal" data-target="#joinRoom">
       </button>
@@ -31,7 +70,7 @@
             <div class="modal-header">
               <h5 class="col-11 modal-title text-center" id="joinRoomLabel">Join a room</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                <!-- <span aria-hidden="true">&times;</span> -->
               </button>
             </div>
             <div class="modal-body text-center">

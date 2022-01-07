@@ -108,48 +108,36 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
   navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
-  }).then(function(videoStream) {
-          let audioTrack = videoStream.getTracks().filter(function(track) {
-            return track.kind === 'audio'
-          })[0];
-          let stream = face.captureStream(30)
-          stream.addTrack( audioTrack );
+  }).then(videoStream => {
+    let audioTrack = videoStream.getTracks().filter(function(track) {
+      return track.kind === 'audio'
+    })[0];
+    let stream = face.captureStream(30)
+    stream.addTrack( audioTrack );
 
-          addVideoStream(myVideo, videoStream)  
+    addVideoStream(myVideo, videoStream)  
 
-          myPeer.on('call', call => {
-            console.log('this peer is being called. stream to send = ' + typeof stream)
-            call.answer(stream)
-            const video = document.createElement('video')
-            call.on('stream', userVideoStream => {
-              console.log('incoming stream: ' + stream)
-              addVideoStream(video, userVideoStream)
-            })
-          })
-          socket.emit("ready")
-        
-          socket.on('user-connected', userId => {
-            console.log("New user connected..."+ stream)
-            stream.getTracks().forEach(function(track) {
-                if (track){
-                  console.log(track)
-                }
-              })
-            connectToNewUser(userId, stream)
-          })
-  }).catch(function(err) {permissionDenied(err)})
-
-
-  function permissionDenied(err){
-    console.log(err.name + ": " + err.message)
-    $("#permissionDenied").modal({backdrop: 'static', keyboard: false}) 
-    $(".content").hide()
-  }
-
-
-
-
-
+    myPeer.on('call', call => {
+      console.log('this peer is being called')
+      call.answer(stream)
+      const video = document.createElement('video')
+      call.on('stream', userVideoStream => {
+        console.log('incoming stream: ', stream)
+        addVideoStream(video, userVideoStream)
+      })
+    })
+    socket.emit("ready")
+  
+    socket.on('user-connected', userId => {
+      console.log("New user connected...", userId, stream)
+      stream.getTracks().forEach(function(track) {
+          if (track){
+            console.log(track)
+          }
+        })
+      connectToNewUser(userId, stream)
+    })
+  })
 
   socket.on('user-disconnected', userId => {
     if (peers[userId]) peers[userId].close()
@@ -165,7 +153,6 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
     const video = document.createElement('video')
 
     call.on('stream', userVideoStream => {
-      console.log('recieved stream. stream = ' + typeof stream)
       addVideoStream(video, userVideoStream)
     })
     call.on('close', () => {
