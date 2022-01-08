@@ -22,6 +22,6 @@ $( document ).ready(function() {
 
   $( "#searchButton" ).click(function() {
     const currentRoom = window.location.href
-    $( "#myRoomCode" ).append(currentRoom)
+    $( "#myRoomCode" ).text(currentRoom)
   });
 });

@@ -278,8 +278,6 @@ video, #face {
   display: inline-flex;
   justify-content: center;
   text-align: center!important;
-  /* background: transparent; */
-  border: 3px solid #343a40!important;
   border-radius: 20px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   margin: 0 2% 0 2%;
@@ -294,16 +292,18 @@ video, #face {
   border-radius: 15px!important;
   color:#1d1d1d;
   background: transparent;
-  border: none;
-}
-
-.toggleButtons, .btn-outline-dark, .btn-outline-dark:active {
   box-shadow: none !important;
   outline: 0 none !important;
 }
 
-.btn-outline-dark:active, 
-.toggleButtons:active
+.toggleButtons, .btn-outline-dark, .btn-outline-dark:active .toggleButtons:active, .search, .search:focus{
+  box-shadow: none !important;
+  outline: 0 none !important;
+}
+
+.btn-outline-dark.buttons:active, 
+.buttons.active
 {
   color: #fff!important;
+  background-color: #343a40!important;
 }
