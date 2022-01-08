@@ -31,8 +31,18 @@ const surprised = document.getElementById("surprised")
 const nofaces = document.getElementById("nofaces") 
 const error = document.getElementById("error") 
 
+let statusIconsArr = [
+  default1,
+  neutral,
+  happy,
+  sad,
+  angry,
+  fearful,
+  disgusted,
+  surprised,
+  nofaces
+]
 
-    
 let statusIcons = {
   default: default1,
   neutral: neutral,
@@ -44,57 +54,80 @@ let statusIcons = {
   surprised: surprised,
   nofaces: nofaces
 }
-  
+
 const face = document.getElementById('face');
 var ctx = face.getContext("2d");
-let img = statusIcons.default
-drawImageScaled(img, ctx)
 
-// Promise.all([
-//   faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
-//   faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
-//   faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-//   faceapi.nets.faceExpressionNet.loadFromUri('/models')
-// ]).then(() => trackFaces())
-  
-navigator.mediaDevices.getUserMedia({
-  video: true,
-  audio: true
-}).then(videoStream => {
-  let audioTrack = videoStream.getTracks().filter(function(track) {
-    return track.kind === 'audio'
-  })[0];
-
-  const emojiStream = face.captureStream(30)
-  emojiStream.addTrack( audioTrack );
-  const stream = new MediaStream(emojiStream)
-
-  addVideoStream(myVideo, videoStream)  
-
-  myPeer.on('call', call => {
-    call.answer(stream)
-    const video = document.createElement('video')
-
-    call.on('stream', userVideoStream => {
-      console.log('incoming stream: ', stream)
-      addVideoStream(video, userVideoStream)
-    })
-  })
-
-
-  socket.on('new-user-connected',userId =>{
-    if(userId!=myPeer.id){
-      console.log("New user: "+userId);
-      connectToNewUser(userId,stream);
+const setInitialFace = (function() {
+  var executed = false;
+  return function() {
+    if (!executed) {
+      executed = true;
+      let img = statusIcons.default
+      drawImageScaled(img, ctx)
     }
-  })
+  };
+})();
 
-  socket.emit('connection-request',ROOM_ID,myPeer.id);
+setInitialFace();
+
+Promise.all([
+  faceapi.nets.tinyFaceDetector.loadFromUri('/models'),
+  faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+  faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
+  faceapi.nets.faceExpressionNet.loadFromUri('/models')
+]).then(() => trackFaces())
+
+
+socket.on('created user Id', peerId => {
+  createUserStream(peerId)
 })
-.catch(function(err) {permissionDenied(err)})
+
+function createUserStream(userId){
+  navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true
+  }).then(videoStream => {
+    let audioTrack = videoStream.getTracks().filter(function(track) {
+      return track.kind === 'audio'
+    })[0];
+
+    const emojiStream = face.captureStream(30)
+    emojiStream.addTrack( audioTrack );
+    const stream = new MediaStream(emojiStream)
+
+    addVideoStream(myVideo, videoStream)  
+
+    myPeer.on('call', call => {
+      call.answer(stream)
+      const video = document.createElement('video')
+
+      call.on('stream', userVideoStream => {
+        addVideoStream(video, userVideoStream, call.peer)
+      })
+    })
+
+    socket.on('new-user-connected',userId => {
+      if(userId != myPeer.id && myPeer.id != null){
+        connectToNewUser(userId,stream);
+      }
+    })
+
+    socket.emit('connection-request', ROOM_ID, userId);
+  }).catch((err) => permissionDenied(err))
+}
+
 
 socket.on('user-disconnected', userId => {
-  if (peers[userId]) peers[userId].close()
+  let peerVid = document.getElementById(userId).remove()
+  peerVid.pause();
+  peerVid.removeAttribute('src'); 
+  peerVid.load();
+  if (peers[userId]){
+    peers[userId].peerConnection.close();
+  } if ( peers[userId].close){
+    peers[userId].close();
+  }
 })
 
 myPeer.on('open', id => {
@@ -106,7 +139,7 @@ function connectToNewUser(userId, stream) {
   const video = document.createElement('video')
 
   call.on('stream', userVideoStream => {
-    addVideoStream(video, userVideoStream)
+    addVideoStream(video, userVideoStream, userId)
   })
   call.on('close', () => {
     video.remove()
@@ -114,13 +147,13 @@ function connectToNewUser(userId, stream) {
   peers[userId] = call
 }
 
-function addVideoStream(video, stream) {
+function addVideoStream(video, stream, userId) {
   video.srcObject = stream
   video.setAttribute("playsinline", true);
   video.addEventListener('loadedmetadata', () => {
     video.play()
     if (!video.id){
-      let videoId = stream.id.slice(0,7)
+      let videoId = userId
       video.setAttribute('id', videoId)
       if($('#toggleAudioButton').hasClass('active')){
         video.muted = true;
@@ -147,26 +180,26 @@ function permissionDenied(err){
 }
 
 
-// function trackFaces(){
-//   setInterval(async () => {
-//     const detections = await faceapi.detectSingleFace(myVideo, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
-//     if (detections !== undefined) {
-//       error.style.opacity = '0%';
-//       let status = "";
-//       let valueStatus = 0.5;
-//       for (const [key, value] of Object.entries(detections.expressions)) {
-//         if (value > valueStatus) {
-//           status = key
-//           valueStatus = value;
-//         }
-//       }
-//       // highest scored expression (status) = display the right Emoji
-//       let img = statusIcons[status]
-//       if (img !== undefined) drawImageScaled(img, ctx)
-//     } else {
-//       let img = statusIcons.nofaces;
-//       drawImageScaled(img, ctx)
-//       error.style.opacity = '100%';
-//     }
-//   }, 100)
-// }
+function trackFaces(){
+  setInterval(async () => {
+    const detections = await faceapi.detectSingleFace(myVideo, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions()
+    if (detections !== undefined) {
+      error.style.opacity = '0%';
+        let status = "";
+        let valueStatus = 0.5;
+        for (const [key, value] of Object.entries(detections.expressions)) {
+          if (value > valueStatus) {
+            status = key
+            valueStatus = value;
+          }
+        }
+        // highest scored expression (status) = display the right Emoji
+        let img = statusIcons[status]
+        if (img !== undefined) drawImageScaled(img, ctx)
+    } else {
+    let img = statusIcons.nofaces;
+    drawImageScaled(img, ctx)
+    error.style.opacity = '100%';
+    }
+  }, 100)
+}
